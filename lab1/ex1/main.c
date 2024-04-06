@@ -27,11 +27,26 @@ void write_binary_file(char *file_1, char *file_2) {
     fclose(f2);
 }
 
+void read_binary_file(char *file_2, char *file_3) {
+    FILE *f2, *f3;
+    Student s;
+
+    f2 = fopen(file_2, "rb");
+    f3 = fopen(file_3, "w");
+
+    while (fread(&s, sizeof(s), 1, f2) == 1){
+        fprintf(f3, "%d %ld %s %s %d\n", s.id, s.register_number, s.surname, s.name, s.mark);
+    }
+
+    fclose(f2);
+    fclose(f3);
+}
+
 int main(int argc, char *argv[]) {
     if (argc != 4) {
         fprintf(stderr, "Usage: %s file_1 file_2 file_3\n", argv[0]);
     }
     write_binary_file(argv[1], argv[2]);
-
+    read_binary_file(argv[2], argv[3]);
     return 0;
 }
